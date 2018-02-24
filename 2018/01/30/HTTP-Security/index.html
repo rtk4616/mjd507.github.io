@@ -1,0 +1,50 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>HTTPS 安全机制 | Cleaner</title><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/5.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.0/grids-responsive-min.css"><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">HTTPS 安全机制</h1><a id="logo" href="/.">Cleaner</a><p class="description">life is not a 100-meter race</p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/readingList/"><i class="fa fa-th-large"> 读书清单</i></a><a href="/365/"><i class="fa fa-fire"> 365</i></a></div></div><div id="layout" class="pure-g"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">HTTPS 安全机制</h1><div class="post-meta">Jan 30, 2018<span> | </span><span class="category"><a href="/categories/Internet-Protocol/">网络相关</a></span><script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_page_pv"> | <span id="busuanzi_value_page_pv"></span><span> Hits</span></span></div><div class="clear"><div id="toc" class="toc-article"><div class="toc-title">文章目录</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据加密的方式"><span class="toc-number">1.</span> <span class="toc-text">数据加密的方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#对称密钥"><span class="toc-number">1.1.</span> <span class="toc-text">对称密钥</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#公开密钥"><span class="toc-number">1.2.</span> <span class="toc-text">公开密钥</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数字签名"><span class="toc-number">2.</span> <span class="toc-text">数字签名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数字证书"><span class="toc-number">3.</span> <span class="toc-text">数字证书</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTPS-通信过程"><span class="toc-number">4.</span> <span class="toc-text">HTTPS 通信过程</span></a></li></ol></div></div><div class="post-content"><p>使用 HTTPS 时，所有的 HTTP 请求和响应数据在发送到网络之前，都要先进行加密。 HTTPS 在 HTTP 下面提供了一个数据传输级的安全层（SSL or TLS），用来对数据进行加密。</p>
+<p>写这篇文章时，看到了一篇很形象的阐述 HTTPS 的安全的故事，故事有趣不枯燥，推荐大家可以直接看看这篇 <a href="https://zhuanlan.zhihu.com/p/33043251" target="_blank" rel="noopener">HTTPS 的故事</a>。</p>
+<a id="more"></a>
+<h2 id="数据加密的方式"><a href="#数据加密的方式" class="headerlink" title="数据加密的方式"></a>数据加密的方式</h2><p>简单解释下密钥，即改变密码行为的数字化参数。比如明文密码循环 N 个移位的编码与解码，这个 N 就是密钥。</p>
+<h3 id="对称密钥"><a href="#对称密钥" class="headerlink" title="对称密钥"></a>对称密钥</h3><p>编 / 解码使用相同密钥。通信双方要共享相同的密钥才能进行通信。流行的对称密钥加密算法包括：DES(64位)、Triple-DES(3次DES 加密)、RC4( 8- 2048位)。</p>
+<p>密钥达到 128 位就很难暴力枚举出来了。</p>
+<p>对称密钥的缺点：</p>
+<ul>
+<li>通信之前，要确认好共享的密钥。（第一次通信，确认密钥时是明文，不安全）</li>
+<li>每对通信双方需要保存加密算法和对应的密钥，而不同主机的通信很多，加密算法和密钥管理成本巨大且容易泄漏。</li>
+</ul>
+<h3 id="公开密钥"><a href="#公开密钥" class="headerlink" title="公开密钥"></a>公开密钥</h3><p>公开密钥加密，也称为非对称密钥加密，有两把密钥：<strong>公钥</strong>和<strong>私钥</strong>，服务端将公钥发送给客户端，客户端使用公钥加密信息，服务端接受消息后使用私钥解密。流行的公开密钥加密算法有 RSA 算法。</p>
+<p>如果每次通信都用公钥加密，私钥解密，可能会影响通信效率，常见的做法是采用混合加密系统，即先通过公开密钥加密技术建立起安全通信，后续通信可以采用对称密钥加密。</p>
+<h2 id="数字签名"><a href="#数字签名" class="headerlink" title="数字签名"></a>数字签名</h2><p>数字签名是附加在报文上的特殊加密校验码。通常是用非对称公开密钥技术产生的。只有所有者才知道其私有密钥，所以可以将私有密钥当作一种「指纹」使用。</p>
+<p>如果签名就匹配不上，客户端就可以认为受到的数据不是来自请求的服务器，而是中途被拦截重放了。</p>
+<h2 id="数字证书"><a href="#数字证书" class="headerlink" title="数字证书"></a>数字证书</h2><p>数字证书由权威机构发行，里面包含了很多信息，上面的通信数字签名信息也是证书里的一部分。</p>
+<p>数字证书的格式普遍采用的是<a href="https://baike.baidu.com/item/X.509" target="_blank" rel="noopener">X.509</a>V3国际标准，一个标准的 X.509 数字证书包含以下一些内容：</p>
+<ul>
+<li>证书的版本信息</li>
+<li>证书的序列号，每个证书都有一个唯一的证书序列号</li>
+<li>证书所使用的签名算法</li>
+<li>证书所有人的<strong>公开密钥</strong></li>
+<li>证书发行者对证书的<strong>签名</strong></li>
+<li>……</li>
+</ul>
+<h2 id="HTTPS-通信过程"><a href="#HTTPS-通信过程" class="headerlink" title="HTTPS 通信过程"></a>HTTPS 通信过程</h2><ol>
+<li>在 HTTPS 中，客户端首先打开一条到 Web 服务器端口 443 的连接。</li>
+<li>一旦建立了 TCP 连接，客户端和服务器就会初始化 SSL 层，并做一些准备工作（对加密参数进行沟通，并交换密钥），包括：<ul>
+<li>交换协议版本号</li>
+<li>选择一个两端都了解的密码</li>
+<li>对两端的身份进行认证</li>
+<li>生成临时的会话密钥，以便加密信道。</li>
+</ul>
+</li>
+<li>SSL 初始化就完成后，客户端就可以将请求报文发送给安全层了。安全层按照约定对其加密，再发送给 TCP 层。</li>
+<li>服务器同理，解密出数据，做出响应，先走安全层对其加密，发送给客户端。</li>
+</ol>
+<p><br></p>
+<p><br></p>
+<blockquote>
+<p><strong>声明 ：本站主要是用来整理不懂的知识，大部分内容我都没有完全掌握，请谨慎参考。</strong><br><strong>版权 ：可以转载，但请在文章显著位置注明出处 ！ <a href="https://mjd507.github.io">https://mjd507.github.io</a></strong></p>
+</blockquote>
+</div><div class="tags"></div><div class="post-nav"><a href="/2018/02/09/HTTPS-vs-SSH/" class="pre">SSH 使用以及与 HTTPS 的对比</a><a href="/2018/01/25/HTTP-Authorization/" class="next">HTTP 授权认证</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Algorithm/">Algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Data-Structure/">Data Structure</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/DesignPattern/">DesignPattern</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web/">Web 前端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Internet-Protocol/">网络相关</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/life-in-lianhuaguoji/">莲花国际的日子</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最新文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/02/16/HTTP-Cache/">HTTP 缓存</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/09/HTTPS-vs-SSH/">SSH 使用以及与 HTTPS 的对比</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/30/HTTP-Security/">HTTPS 安全机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/25/HTTP-Authorization/">HTTP 授权认证</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/20/HTTP-Versions/">HTTP 协议各版本特性</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/15/Use-netcat-to-transfer-TCP-UDP-Data/">使用 netcat 读写 TCP UDP 数据包</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/07/Internet-Protocol-Suite/">TCP/IP 协议入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/30/My-2017/">我的 2017</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/18/About-After-1/">工作与认知</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/07/Slides-With-Markdown/">制作 PPT 和流程图的超酷姿势</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="http://johnnyshieh.me/" title="JohnnyShieh" target="_blank">JohnnyShieh</a><ul></ul><a href="https://daimajia.com/" title="代码家" target="_blank">代码家</a><ul></ul><a href="http://javayhu.me/" title="宅男潇涧" target="_blank">宅男潇涧</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">© <a href="/." rel="nofollow">Cleaner.</a> Powered by<a rel="nofollow" target="_blank" href="https://github.com/mjd507"> mjd507.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a id="rocket" href="#top" class="show"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.pack.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="/css/jquery.fancybox.css?v=0.0.0"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?1c847d4fb515d19b6108f15a5387f1d6";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+  })();
+</script><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
