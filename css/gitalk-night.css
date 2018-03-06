@@ -758,13 +758,14 @@
 }
 .gt-container .gt-ico-text {
   margin-left: 0.3125em;
+  color: #fff;
 }
 .gt-container .gt-ico-github .gt-svg {
   width: 100%;
   height: 100%;
 }
 .gt-container .gt-ico-github svg {
-  fill: inherit;
+  fill: #fff;
 }
 .gt-container .gt-spinner {
   position: relative;
@@ -1161,7 +1162,7 @@
   color: #fff !important;
 }
 .gt-container .gt-comment-admin .gt-comment-content {
-  background-color: #f6f9fe;
+  background-color: transparent;
 }
 @-webkit-keyframes gt-kf-rotate {
   0% {
