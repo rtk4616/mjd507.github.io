@@ -429,7 +429,6 @@
 
 .markdown-body blockquote {
   padding: 0 1em;
-  color: #6a737d;
   border-left: 0.25em solid #dfe2e5;
 }
 
@@ -446,7 +445,7 @@
   padding: 3px 5px;
   font-size: 11px;
   line-height: 10px;
-  color: #444d56;
+  color: #dedede;
   vertical-align: middle;
   background-color: #fafbfc;
   border: solid 1px #c6cbd1;
