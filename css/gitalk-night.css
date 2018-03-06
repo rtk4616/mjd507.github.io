@@ -216,8 +216,8 @@
 }
 
 .markdown-body a {
-  color: #0366d6;
-  text-decoration: none;
+  color: #fff;
+  text-decoration: underline;
 }
 
 .markdown-body a:hover {
@@ -1124,7 +1124,7 @@
 }
 .gt-container .gt-comment-username {
   font-weight: 500;
-  color: #fff;
+  color: #B8BFC6;
   text-decoration: none;
 }
 .gt-container .gt-comment-username:hover {
@@ -1132,11 +1132,11 @@
 }
 .gt-container .gt-comment-text {
   margin-left: 0.5em;
-  color: #fff;
+  color: #B8BFC6;
 }
 .gt-container .gt-comment-date {
   margin-left: 0.5em;
-  color: #fff;
+  color: #B8BFC6;
 }
 .gt-container .gt-comment-like,
 .gt-container .gt-comment-edit,
