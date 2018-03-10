@@ -424,7 +424,9 @@ blockquote, .stressed-quote > :last-child {
   margin-bottom: 24px; }
 
 strong, b, em {
-  font-weight: bold; }
+  font-weight: bold;
+  color: #fff;
+  font-size: 14px; }
 
 pre {
   margin: 2em 0; }
